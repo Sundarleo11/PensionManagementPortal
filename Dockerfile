@@ -6,6 +6,6 @@ FROM openjdk:8
 
 EXPOSE 8000
 
-ADD target/PensionManagementPortal.jar PensionManagementPortal.jar
+# ADD target/PensionManagementPortal.jar PensionManagementPortal.jar
 
-ENTRYPOINT ["java","-jar","/PensionManagementPortal.jar"]
+# ENTRYPOINT ["java","-jar","/PensionManagementPortal.jar"]
