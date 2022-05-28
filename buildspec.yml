@@ -2,29 +2,30 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      docker: 18
       java: corretto11
   pre_build:
     commands:
     - echo Logging in to Amazon ECR...
     - aws --version
-    - $(aws ecr get-login --region us-east-1 --no-include-email)
-    
+    - echo Spece@sp123 | docker login --username leos12 --password-stdin
+    - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+    - IMAGE_URI=156962844638.dkr.ecr.us-east-1.amazonaws.com/pms-penstionman-rep:${TAG}
   build:
     commands:
     - echo Build started on `date`
-    - echo Building Java
-    - mvn clean
-    - echo Building the docker image..
-    - docker build -t pms-penstionman-rep .
-    - docker tag pms-penstionman-rep:latest 156962844638.dkr.ecr.us-east-1.amazonaws.com/pms-penstionman-rep:latest
+    - echo $IMAGE_URI
+    - mvn clean package -Ddockerfile.skip
+    - docker build --tag $IMAGE_URI .
   post_build:
     commands:
+    - printenv
     - echo Build completed on `date`
+    - echo $(docker images)
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 156962844638.dkr.ecr.us-east-1.amazonaws.com
     - echo Pushing docker image
-    - docker push 156962844638.dkr.ecr.us-east-1.amazonaws.com/pms-penstionman-rep:latest
-    - echo Writting definition file
-    - printf '[{"name":"PensionManagementPortal","imageUri":"%s"}]' 156962844638.dkr.ecr.us-east-1.amazonaws.com/pms-penstionman-rep:latest > imagedefinitions.json
+    - docker push $IMAGE_URI
+    - echo push completed
+    - printf '[{"name":"%s","imageUri":"%s"}]' pms-penstionman-rep-CNT $IMAGE_URI > imagedefinitions.json
 artifacts:
   files:
-  - PensionManagementPortal/imagedefinitions.json
+  - imagedefinitions.json
