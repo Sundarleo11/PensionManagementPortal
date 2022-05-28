@@ -5,11 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -196,5 +198,16 @@ public class PensionerDetailController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/health",method = RequestMethod.GET)
+	public ResponseEntity<?> health() throws Exception {
+	    try {
+	        return ResponseEntity.status(200).body("Ok");
+	    } catch (Exception e) {
+	        return (ResponseEntity<?>) ResponseEntity.status(null);
+	        		//internalServerError().body(e.getMessage());
+	    }
+	}
+	
 	
 }
+
