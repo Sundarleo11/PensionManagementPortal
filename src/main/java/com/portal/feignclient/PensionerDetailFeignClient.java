@@ -14,7 +14,8 @@ import com.portal.model.PensionerDetail;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@FeignClient(name = "PensionerDetail-Microservice", url = "http://localhost:6001/pensioner/api")
+//@FeignClient(name = "PensionerDetail-Microservice", url = "http://localhost:6001/pensioner/api")
+@FeignClient(name = "PensionerDetail-Microservice", url = "http://890536-pensionerdetail-lb-1961886833.us-east-1.elb.amazonaws.com/pensioner/api")
 public interface PensionerDetailFeignClient {
 
 	@GetMapping("/getAllPensioner")
