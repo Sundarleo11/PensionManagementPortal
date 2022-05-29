@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import com.portal.exception.AuthorizationException;
 import com.portal.model.JwtRequest;
 
-@FeignClient(name = "Authorizatiion-Microservice", url = "http://localhost:8000/auth/api")
+//@FeignClient(name = "Authorizatiion-Microservice", url = "http://localhost:8000/auth/api")
+@FeignClient(name = "Authorizatiion-Microservice", url = "http://pms-prod-auth-lb-1622755753.us-east-1.elb.amazonaws.com/auth/api")
 public interface AuthorisingClient {
     
 	@PostMapping(value = "/authenticate")
